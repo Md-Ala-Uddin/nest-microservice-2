@@ -20,10 +20,16 @@ export class UsersService {
     },
   ];
 
-  create(createUserDto: CreateUserDto): UserDto {
+  create(createUserDto: CreateUserDto): UserDto | null {
+    const userExists = this.users.some(
+      (user) => user.email === createUserDto.email,
+    );
+
+    if (userExists) return null;
+
     const newUser: UserDto = {
-      ...createUserDto,
       id: this.users.length + 1,
+      ...createUserDto,
     };
 
     this.users.push(newUser);
@@ -59,11 +65,11 @@ export class UsersService {
     return updatedUser;
   }
 
-  remove(id: number): UserDto | undefined {
+  remove(id: number): UserDto | null {
     const user = this.findOne(id);
-    if (!user) return undefined;
+    if (!user) return null;
     return this.users.splice(
-      this.users.findIndex((user) => user.id === id),
+      this.users.findIndex((item) => item.id === id),
       1,
     )[0];
   }

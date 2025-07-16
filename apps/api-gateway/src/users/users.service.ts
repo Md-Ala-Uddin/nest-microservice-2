@@ -26,6 +26,6 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return this.usersClient.send('users.create', id);
+    return this.usersClient.send('users.remove', id);
   }
 }

@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
+import { map } from 'rxjs/operators';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserDto } from './dto/user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -17,7 +20,12 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService.create(createUserDto).pipe(
+      map((user: UserDto | null) => {
+        if (user === null) throw new NotFoundException('User already exists');
+        return user;
+      }),
+    );
   }
 
   @Get()
@@ -37,6 +45,11 @@ export class UsersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(+id).pipe(
+      map((user: UserDto | null) => {
+        if (!user) throw new NotFoundException(`User with id ${id} not found`);
+        return user;
+      }),
+    );
   }
 }
