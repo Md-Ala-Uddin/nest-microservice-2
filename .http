@@ -1,0 +1,28 @@
+### Get All Users
+GET http://localhost:3000/users
+
+### Get User by ID
+GET http://localhost:3000/users/1
+
+### Create User
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "email": "user3@gmail.com",
+    "name": "User Three",     
+    "password": "password3"
+}
+
+### Update User
+PATCH http://localhost:3000/users/1
+content-type: application/json
+
+{
+    "email": "User Three Updated",
+    "name": "User Three Updated",
+    "password": "password3Updated"
+}
+
+### Delete User
+DELETE http://localhost:3000/users/1
