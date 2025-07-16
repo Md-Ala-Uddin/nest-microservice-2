@@ -1,26 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @Inject('USERS_CLIENT') private readonly usersClient: ClientProxy,
+  ) {}
+
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.usersClient.send('users.create', createUserDto);
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.usersClient.send('users.findAll', {});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.usersClient.send('users.findOne', id);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.usersClient.send('users.update', { id, ...updateUserDto });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.usersClient.send('users.create', id);
   }
 }
