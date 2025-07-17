@@ -17,6 +17,19 @@
     "noImplicitAny": true,
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {}
+    "paths": {
+      "@app/errors": [
+        "libs/errors/src"
+      ],
+      "@app/errors/*": [
+        "libs/errors/src/*"
+      ],
+      "@app/prisma": [
+        "libs/prisma/src"
+      ],
+      "@app/prisma/*": [
+        "libs/prisma/src/*"
+      ]
+    }
   }
 }
