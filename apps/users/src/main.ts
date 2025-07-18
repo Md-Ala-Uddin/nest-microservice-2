@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { UsersAppModule } from './users-app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { RpcGlobalExceptionFilter } from '@app/errors/rpc-exception.filter';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -14,8 +13,6 @@ async function bootstrap(): Promise<void> {
       },
     },
   );
-
-  app.useGlobalFilters(new RpcGlobalExceptionFilter());
 
   await app.listen();
 }
